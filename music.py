@@ -1,14 +1,14 @@
 import speech_recognition as sr
 import pyttsx3
 import datetime
+import time
 import wikipedia
 import webbrowser
 import os
 import random
 import smtplib
-import time
 import eyed3
-from path_required_for_tommy import dirName
+from path_required_for_tommy import dirName 
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
@@ -18,26 +18,12 @@ engine.setProperty('voice',voices[1].id)
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
-    
-def wish(): #wishes like good morning /afternoon/evening 
-    hour=int(datetime.datetime.now().hour)
-    if hour>=0 and hour<12:
-        print("Good Morning!")
-        speak("Good Morning!")
-    elif hour>=12 and hour<=18:
-        print("Good Afternoon!")
-        speak("Good Afternoon!")
-    else:
-        print("Good Evening!")
-        speak("Good Evening!")
-    print("i am your system assistant, How can i help you!")
-    speak("i am your system assistant, How can i help you!")
 
 def take():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print("Listening...")
-        speak("Listening")
+        speak("Listening...")
         r.pause_threshold=1
         audio = r.listen(source)
     #user=r.recognize_google(audio)
@@ -69,20 +55,11 @@ def getListOfFiles(dirName):
             allFiles = allFiles + getListOfFiles(fullPath)
         else:
             allFiles.append(fullPath)
-    return allFiles 
+    return allFiles        
 
 def askpath():# asks path of the mp3 files located folder in a drive
-    path=input("enter the folder path :")
+    path=input("enter the folder path: ")
     return path
-
-def mp3len(t):# mp3 length in seconds
-    duration = eyed3.load(t).info.time_secs
-    return duration
-
-def mp3leninhm(seconds): # mp3 length in hours and mins
-    mins = seconds / 60
-    hours= seconds/3600
-    return mins,hours
 
 def playoff(t):#plays mp3 and display name time period
     os.startfile(os.path.join(dirName,listOfFiles[t]))
@@ -96,43 +73,19 @@ def playoff(t):#plays mp3 and display name time period
     print ("\n\t*****#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*****\n")
     return 1
 
-def sendEmail(to,content):
-    server=smtplib.SMTP('smtp.gmail.com',587)
-    server.ehlo()
-    server.starttls()
-    speak("please say login email address ")
-    #your_email="jeethurivishnu@gmail.com"#take()
-    server.login('your_email','your password')#sending address details
-    server.sendmail('your_mail','to','content')
-    server.close()
+def mp3len(t):# mp3 length in seconds
+    duration = eyed3.load(t).info.time_secs
+    return duration
 
-if __name__=="__main__":
-    wish()
-    print("i am a good boy")
-    speak("i am a good boy")
+def mp3leninhm(seconds): # mp3 length in hours and mins
+    mins = seconds / 60
+    hours= seconds/3600
+    return mins,hours
 
-    #while 1:
+if __name__=="__main__": # execution starts here
     while 1:
-        query=take().lower()  #taking voice query
-
-        if 'wikipedia' in query:
-            speak('searching wikipedia')
-            query=query.replace("wikipedia","") 
-            results=wikipedia.summary(query,sentences=2)
-            speak("Acording to wikipedia")
-            print(results)
-            speak(results)
-
-        elif 'open youtube' in query:
-            webbrowser.open("youtube.com")
-
-        elif 'open google' in query:
-            webbrowser.open("google.com")
-
-        elif 'open stackoverflow' in query:
-            webbrowser.open("stackoverflow.com")
-
-        elif 'play music' in query:
+        query=take().lower() #taking voice query
+        if 'play music' in query: #if the query is play music
             
             if(not(os.path.exists(dirName))):
                 print("please enter valid folder path: ")
@@ -157,23 +110,6 @@ if __name__=="__main__":
                 for j in range(0,len(listOfFiles)-1):
                     t=j
                     playoff(t)
+                    
 
-        elif 'time' in query:
-            strTime=datetime.datetime.now().strftime("%H:%M:%S")
-            print(strTime)
-            speak("sir, now the time is "+strTime)
 
-        elif 'open code' in query:
-            codepath="E:\\Microsoft VS Code\\Code.exe"
-            os.startfile(codepath)
-
-        elif 'send mail' in query:
-            try:
-                speak("what should i say")
-                content=take()#message to the contact
-                to="jeethurivishnu1@gmail.com"#take()#"toaddress"
-                sendEmail(to,content)
-                speak("email has been sent")
-            except Exception as e:
-                print('e')
-                speak("sorry sir, i am not able to send the email ")
