@@ -102,8 +102,8 @@ def sendEmail(to,content):
     server.starttls()
     speak("please say login email address ")
     #your_email="jeethurivishnu@gmail.com"#take()
-    server.login('your_email','your password')#sending address details
-    server.sendmail('your_mail','to','content')
+    server.login('your_email','your password')#sending address details# replace your_email and your password with your original emailid and password 
+    server.sendmail('your_mail','to','content')# and here replace your_mail with your original mailid
     server.close()
 
 if __name__=="__main__":
@@ -171,7 +171,7 @@ if __name__=="__main__":
             try:
                 speak("what should i say")
                 content=take()#message to the contact
-                to="jeethurivishnu1@gmail.com"#take()#"toaddress"
+                to=#take()#"toaddress"# here you can keep to address directly or you can take from voice by take() method
                 sendEmail(to,content)
                 speak("email has been sent")
             except Exception as e:
