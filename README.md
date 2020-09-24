@@ -12,7 +12,7 @@ music.py supports the commands
   voice command- "search <about topic nsme> in wikipedia"
  
 2. opens youtube, google, stackoverflow 
-  voice command- "open <name of the page>"
+  voice command- "open <name of the page> "
  
  3. opens microsoft visual studio code
   voice command- "open code"
